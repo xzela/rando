@@ -1,4 +1,4 @@
-package com.moral.screens;
+package com.moral.startest.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

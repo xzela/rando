@@ -1,7 +1,7 @@
 package com.moral.startest;
 
 import com.badlogic.gdx.Game;
-import com.moral.screens.MainMenuScreen;
+import com.moral.startest.screens.MainMenuScreen;
 
 public class StarTest extends Game
 {
