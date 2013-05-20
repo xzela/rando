@@ -152,7 +152,6 @@ public class BobController
 			if (block == null) { continue; }
 			if (bobRectangle.overlaps(block.getBounds()))
 			{
-				System.out.println("i overlapped a box!");
 				bob.getVelocity().x = 0;
 				world.getCollisionRects().add(block.getBounds());
 				break;
