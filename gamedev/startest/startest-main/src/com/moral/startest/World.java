@@ -19,15 +19,10 @@ public class World {
 
 	// Getters -----------
 
-	public Array<Rectangle> getCollisionRects() {
-		return collisionRects;
-	}
-	public Bob getBob() {
-		return bob;
-	}
-	public Level getLevel() {
-		return level;
-	}
+	public Array<Rectangle> getCollisionRects() { return collisionRects; }
+	public Bob getBob() { return bob; }
+	public Level getLevel() { return level; }
+
 	/** Return only the blocks that need to be drawn **/
 	public List<Block> getDrawableBlocks(int width, int height) {
 		int x = (int)bob.getPosition().x - width;

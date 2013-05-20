@@ -21,47 +21,47 @@ public class Level
 
 	public Level()
 	{
-		loadDemoLevel();
+		this.loadDemoLevel();
 	}
 
 	public void loadDemoLevel()
 	{
-		width = 10;
-		height = 7;
+		this.width = 15;
+		this.height = 10;
 
-		blocks = new Block[width][height];
+		this.blocks = new Block[this.width][this.height];
 
-		for (int col = 0; col < width; col++)
+		for (int col = 0; col < this.width; col++)
 		{
-			for (int row = 0; row < height; row++)
+			for (int row = 0; row < this.height; row++)
 			{
-				blocks[col][row] = null;
+				this.blocks[col][row] = null;
 			}
 		}
 
-		blocks[0][1] = new Block(new Vector2(0, 1));
-		blocks[0][2] = new Block(new Vector2(0, 2));
-		blocks[0][3] = new Block(new Vector2(0, 3));
+		this.blocks[0][1] = new Block(new Vector2(0, 1));
+		this.blocks[0][2] = new Block(new Vector2(0, 2));
+		this.blocks[0][3] = new Block(new Vector2(0, 3));
 
 		for (int col = 0; col < 10; col++)
 		{
-			blocks[col][0] = new Block(new Vector2(col, 0));
-			blocks[col][6] = new Block(new Vector2(col, 6));
+			this.blocks[col][0] = new Block(new Vector2(col, 0));
+			this.blocks[col][6] = new Block(new Vector2(col, 6));
 
 			if (col > 2)
 			{
-				blocks[col][1] = new Block(new Vector2(col, 1));
+				this.blocks[col][1] = new Block(new Vector2(col, 1));
 			}
 
 		}
-		blocks[9][2] = new Block(new Vector2(9,2));
-		blocks[9][3] = new Block(new Vector2(9,3));
-		blocks[9][4] = new Block(new Vector2(9,4));
-		blocks[9][5] = new Block(new Vector2(9,5));
+		this.blocks[9][2] = new Block(new Vector2(9,2));
+		this.blocks[9][3] = new Block(new Vector2(9,3));
+		this.blocks[9][4] = new Block(new Vector2(9,4));
+		this.blocks[9][5] = new Block(new Vector2(9,5));
 
-		blocks[6][3] = new Block(new Vector2(6,3));
-		blocks[6][4] = new Block(new Vector2(6,4));
-		blocks[6][5] = new Block(new Vector2(6,5));
+		this.blocks[6][3] = new Block(new Vector2(6,3));
+		this.blocks[6][4] = new Block(new Vector2(6,4));
+		this.blocks[6][5] = new Block(new Vector2(6,5));
 	}
 
 }

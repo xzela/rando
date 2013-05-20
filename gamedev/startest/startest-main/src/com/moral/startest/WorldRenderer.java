@@ -48,11 +48,11 @@ public class WorldRenderer {
 	public void setSize (int w, int h) {
 		this.width = w;
 		this.height = h;
-		ppuX = width / CAMERA_WIDTH;
-		ppuY = height / CAMERA_HEIGHT;
+		this.ppuX = this.width / CAMERA_WIDTH;
+		this.ppuY = this.height / CAMERA_HEIGHT;
 	}
 	public boolean isDebug() {
-		return debug;
+		return this.debug;
 	}
 	public void setDebug(boolean debug) {
 		this.debug = debug;
@@ -61,24 +61,25 @@ public class WorldRenderer {
 	public WorldRenderer(World world, boolean debug) {
 		this.world = world;
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
+//		cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
 		this.cam.update();
 		this.debug = debug;
-		spriteBatch = new SpriteBatch();
-		loadTextures();
+		this.spriteBatch = new SpriteBatch();
+		this.loadTextures();
 	}
 
 	private void loadTextures() {
 		TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("assets/images/textures/textures.pack"));
-		bobIdleLeft = atlas.findRegion("bob-01");
-		bobIdleRight = new TextureRegion(bobIdleLeft);
-		bobIdleRight.flip(true, false);
-		blockTexture = atlas.findRegion("block");
+		this.bobIdleLeft = atlas.findRegion("bob-01");
+		this.bobIdleRight = new TextureRegion(this.bobIdleLeft);
+		this.bobIdleRight.flip(true, false);
+		this.blockTexture = atlas.findRegion("block");
 		TextureRegion[] walkLeftFrames = new TextureRegion[5];
 		for (int i = 0; i < 5; i++) {
 			walkLeftFrames[i] = atlas.findRegion("bob-0" + (i + 2));
 		}
-		walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, walkLeftFrames);
+		this.walkLeftAnimation = new Animation(RUNNING_FRAME_DURATION, walkLeftFrames);
 
 		TextureRegion[] walkRightFrames = new TextureRegion[5];
 
@@ -86,73 +87,83 @@ public class WorldRenderer {
 			walkRightFrames[i] = new TextureRegion(walkLeftFrames[i]);
 			walkRightFrames[i].flip(true, false);
 		}
-		walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
-		bobJumpLeft = atlas.findRegion("bob-up");
-		bobJumpRight = new TextureRegion(bobJumpLeft);
-		bobJumpRight.flip(true, false);
-		bobFallLeft = atlas.findRegion("bob-down");
-		bobFallRight = new TextureRegion(bobFallLeft);
-		bobFallRight.flip(true, false);
+		this.walkRightAnimation = new Animation(RUNNING_FRAME_DURATION, walkRightFrames);
+		this.bobJumpLeft = atlas.findRegion("bob-up");
+		this.bobJumpRight = new TextureRegion(this.bobJumpLeft);
+		this.bobJumpRight.flip(true, false);
+		this.bobFallLeft = atlas.findRegion("bob-down");
+		this.bobFallRight = new TextureRegion(this.bobFallLeft);
+		this.bobFallRight.flip(true, false);
 	}
 
 
 	public void render() {
-		spriteBatch.begin();
-		drawBlocks();
-		drawBob();
-		spriteBatch.end();
-		drawCollisionBlocks();
-		if (debug)
-			drawDebug();
+		this.moveCamera(this.world.getBob().getPosition().x, this.world.getBob().getPosition().y );
+		this.spriteBatch.setProjectionMatrix(this.cam.combined);
+		this.spriteBatch.begin();
+		this.drawBlocks();
+		this.drawBob();
+		this.spriteBatch.end();
+		this.drawCollisionBlocks();
+		if (true)
+			this.drawDebug();
 	}
 
+	public void moveCamera(float x, float y)
+	{
+//		if(this.world.getBob().getPosition().x > CAMERA_HEIGHT / 2f)
+//		{
+			this.cam.position.set(x, y, 0);
+			this.cam.update();
+//		}
+	}
 
 	private void drawBlocks() {
-		for (Block block : world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
-			spriteBatch.draw(blockTexture, block.getPosition().x * ppuX, block.getPosition().y * ppuY, Block.SIZE * ppuX, Block.SIZE * ppuY);
+		for (Block block : this.world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
+			this.spriteBatch.draw(this.blockTexture, block.getPosition().x * this.ppuX, block.getPosition().y * this.ppuY, Block.SIZE * this.ppuX, Block.SIZE * this.ppuY);
 		}
 	}
 
 	private void drawBob() {
-		Bob bob = world.getBob();
-		bobFrame = bob.isFacingLeft() ? bobIdleLeft : bobIdleRight;
+		Bob bob = this.world.getBob();
+		this.bobFrame = bob.isFacingLeft() ? this.bobIdleLeft : this.bobIdleRight;
 		if(bob.getState().equals(State.WALKING)) {
-			bobFrame = bob.isFacingLeft() ? walkLeftAnimation.getKeyFrame(bob.getStateTime(), true) : walkRightAnimation.getKeyFrame(bob.getStateTime(), true);
+			this.bobFrame = bob.isFacingLeft() ? this.walkLeftAnimation.getKeyFrame(bob.getStateTime(), true) : this.walkRightAnimation.getKeyFrame(bob.getStateTime(), true);
 		} else if (bob.getState().equals(State.JUMPING)) {
 			if (bob.getVelocity().y > 0) {
-				bobFrame = bob.isFacingLeft() ? bobJumpLeft : bobJumpRight;
+				this.bobFrame = bob.isFacingLeft() ? this.bobJumpLeft : this.bobJumpRight;
 			} else {
-				bobFrame = bob.isFacingLeft() ? bobFallLeft : bobFallRight;
+				this.bobFrame = bob.isFacingLeft() ? this.bobFallLeft : this.bobFallRight;
 			}
 		}
-		spriteBatch.draw(bobFrame, bob.getPosition().x * ppuX, bob.getPosition().y * ppuY, Bob.SIZE * ppuX, Bob.SIZE * ppuY);
+		this.spriteBatch.draw(this.bobFrame, bob.getPosition().x * this.ppuX, bob.getPosition().y * this.ppuY, Bob.SIZE * this.ppuX, Bob.SIZE * this.ppuY);
 	}
 
 	private void drawDebug() {
 		// render blocks
-		debugRenderer.setProjectionMatrix(cam.combined);
-		debugRenderer.begin(ShapeType.Rectangle);
-		for (Block block : world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
+		this.debugRenderer.setProjectionMatrix(this.cam.combined);
+		this.debugRenderer.begin(ShapeType.Rectangle);
+		for (Block block : this.world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
 			Rectangle rect = block.getBounds();
-			debugRenderer.setColor(new Color(1, 0, 0, 1));
-			debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+			this.debugRenderer.setColor(new Color(1, 0, 0, 1));
+			this.debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
 		}
 		// render Bob
-		Bob bob = world.getBob();
+		Bob bob = this.world.getBob();
 		Rectangle rect = bob.getBounds();
-		debugRenderer.setColor(new Color(0, 1, 0, 1));
-		debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
-		debugRenderer.end();
+		this.debugRenderer.setColor(new Color(0, 1, 0, 1));
+		this.debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+		this.debugRenderer.end();
 	}
 
 	private void drawCollisionBlocks() {
-		debugRenderer.setProjectionMatrix(cam.combined);
-		debugRenderer.begin(ShapeType.FilledRectangle);
-		debugRenderer.setColor(new Color(1, 1, 1, 1));
-		for (Rectangle rect : world.getCollisionRects()) {
-			debugRenderer.filledRect(rect.x, rect.y, rect.width, rect.height);
+		this.debugRenderer.setProjectionMatrix(this.cam.combined);
+		this.debugRenderer.begin(ShapeType.FilledRectangle);
+		this.debugRenderer.setColor(new Color(1, 1, 1, 1));
+		for (Rectangle rect : this.world.getCollisionRects()) {
+			this.debugRenderer.filledRect(rect.x, rect.y, rect.width, rect.height);
 		}
-		debugRenderer.end();
+		this.debugRenderer.end();
 
 	}
 }
