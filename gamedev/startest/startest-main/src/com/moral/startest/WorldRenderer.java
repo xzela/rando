@@ -61,7 +61,7 @@ public class WorldRenderer {
 	public WorldRenderer(World world, boolean debug) {
 		this.world = world;
 		this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_HEIGHT);
-//		cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
+		this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
 		this.cam.update();
 		this.debug = debug;
@@ -111,11 +111,8 @@ public class WorldRenderer {
 
 	public void moveCamera(float x, float y)
 	{
-//		if(this.world.getBob().getPosition().x > CAMERA_HEIGHT / 2f)
-//		{
-			this.cam.position.set(x, y, 0);
-			this.cam.update();
-//		}
+		this.cam.position.set(x, y, 0);
+		this.cam.update();
 	}
 
 	private void drawBlocks() {
