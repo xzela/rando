@@ -105,19 +105,24 @@ public class WorldRenderer {
 		this.drawBob();
 		this.spriteBatch.end();
 		this.drawCollisionBlocks();
-		if (true)
+		if (debug)
 			this.drawDebug();
 	}
 
 	public void moveCamera(float x, float y)
 	{
+		//System.out.println(this.world.getBob().position);
 		this.cam.position.set(x, y, 0);
 		this.cam.update();
 	}
 
 	private void drawBlocks() {
 		for (Block block : this.world.getDrawableBlocks((int)CAMERA_WIDTH, (int)CAMERA_HEIGHT)) {
-			this.spriteBatch.draw(this.blockTexture, block.getPosition().x * this.ppuX, block.getPosition().y * this.ppuY, Block.SIZE * this.ppuX, Block.SIZE * this.ppuY);
+			this.spriteBatch.draw(this.blockTexture,
+					block.getPosition().x,
+					block.getPosition().y,
+					Block.SIZE,
+					Block.SIZE);
 		}
 	}
 
@@ -133,7 +138,7 @@ public class WorldRenderer {
 				this.bobFrame = bob.isFacingLeft() ? this.bobFallLeft : this.bobFallRight;
 			}
 		}
-		this.spriteBatch.draw(this.bobFrame, bob.getPosition().x * this.ppuX, bob.getPosition().y * this.ppuY, Bob.SIZE * this.ppuX, Bob.SIZE * this.ppuY);
+		this.spriteBatch.draw(this.bobFrame, bob.getPosition().x, bob.getPosition().y, Bob.SIZE, Bob.SIZE);
 	}
 
 	private void drawDebug() {

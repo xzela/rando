@@ -99,6 +99,7 @@ public class BobController
 
 	public void update(float delta)
 	{
+
 		processInput();
 		if (grounded && bob.getState().equals(State.JUMPING))
 		{
@@ -240,6 +241,7 @@ public class BobController
 			}
 		}
 
+		System.out.println(bob.getAcceleration());
 		if (keys.get(Keys.LEFT))
 		{
 			// left key is pressed

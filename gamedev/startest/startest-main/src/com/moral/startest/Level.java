@@ -1,5 +1,10 @@
 package com.moral.startest;
 
+import java.io.IOException;
+import java.io.Reader;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Level
@@ -12,6 +17,8 @@ public class Level
 	private int width;
 	public int getWidth() { return this.width; }
 	public void setWidth(int width) { this.width = width; }
+
+	private final String blockSymbol = "X";
 
 
 	private Block[][] blocks;
@@ -43,7 +50,7 @@ public class Level
 		this.blocks[0][2] = new Block(new Vector2(0, 2));
 		this.blocks[0][3] = new Block(new Vector2(0, 3));
 
-		for (int col = 0; col < 10; col++)
+		for (int col = 0; col < this.width; col++)
 		{
 			this.blocks[col][0] = new Block(new Vector2(col, 0));
 			this.blocks[col][6] = new Block(new Vector2(col, 6));
@@ -54,14 +61,32 @@ public class Level
 			}
 
 		}
-		this.blocks[9][2] = new Block(new Vector2(9,2));
+		//this.blocks[9][2] = new Block(new Vector2(9,2));
+
+		//this.blocks[10][1] = new Block(new Vector2(10,1));
+
 		this.blocks[9][3] = new Block(new Vector2(9,3));
 		this.blocks[9][4] = new Block(new Vector2(9,4));
 		this.blocks[9][5] = new Block(new Vector2(9,5));
 
+
 		this.blocks[6][3] = new Block(new Vector2(6,3));
 		this.blocks[6][4] = new Block(new Vector2(6,4));
 		this.blocks[6][5] = new Block(new Vector2(6,5));
+	}
+
+	public void parseLevel() throws IOException
+	{
+		FileHandle level = Gdx.files.internal("res/levels/level_01.txt");
+		//level.
+		Reader reader = level.reader();
+		int r;
+		while((r = reader.read()) != -1)
+		{
+			char ch = (char) r;
+
+		}
+
 	}
 
 }

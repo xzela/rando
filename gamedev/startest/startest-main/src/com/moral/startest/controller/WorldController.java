@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.moral.startest.Bob;
-import com.moral.startest.World;
 import com.moral.startest.Bob.State;
+import com.moral.startest.World;
 
 public class WorldController
 {
@@ -99,7 +99,7 @@ public class WorldController
 			bob.setFacingLeft(false);
 			bob.setState(State.WALKING);
 			bob.getVelocity().x = Bob.SPEED;
-			// System.out.println(bob.getVelocity().x);
+			System.out.println(bob.getVelocity().x);
 		}
 
 		// check to test if neither left or right are pressed
