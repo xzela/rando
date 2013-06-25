@@ -19,7 +19,7 @@ public class BobController
 	}
 
 	private static final long LONG_JUMP_PRESS = 150l;
-	private static final float ACCELERATION = 20f;
+	private static final float ACCELERATION = 30f;
 	private static final float GRAVITY = -20f;
 	private static final float MAX_JUMP_SPEED = 7f;
 	private static final float DAMP = 0.90f;
@@ -71,6 +71,11 @@ public class BobController
 		keys.get(keys.put(Keys.RIGHT, true));
 	}
 
+	public Boolean getRightKey()
+	{
+		return keys.get(Keys.RIGHT);
+	}
+
 	public void rightReleased()
 	{
 		keys.get(keys.put(Keys.RIGHT, false));
@@ -111,7 +116,6 @@ public class BobController
 		checkCollisionWithBlocks(delta);
 
 		bob.getVelocity().x *= DAMP;
-
 		if (bob.getVelocity().x > MAX_VEL)
 			bob.getVelocity().x = MAX_VEL;
 
@@ -241,7 +245,7 @@ public class BobController
 			}
 		}
 
-		System.out.println(bob.getAcceleration());
+		//		System.out.println(bob.getAcceleration());
 		if (keys.get(Keys.LEFT))
 		{
 			// left key is pressed
