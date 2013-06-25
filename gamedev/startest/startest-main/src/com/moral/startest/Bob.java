@@ -13,7 +13,7 @@ public class Bob
 	float stateTime = 0;
 
 	static final float JUMP_VELOCITY = .5f;
-	static final float SIZE = 0.25f;
+	static final float SIZE = 0.5f;
 	public static final float SPEED = 2f;
 
 	Vector2 acceleration = new Vector2();
@@ -57,7 +57,6 @@ public class Bob
 	{
 		// position.add(velocity.tmp().mul(delta));
 		this.stateTime += delta;
-
 	}
 
 	public void setState(State state)

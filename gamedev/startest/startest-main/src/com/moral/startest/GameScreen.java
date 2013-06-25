@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.moral.startest.controller.BobController;
 
 public class GameScreen implements Screen, InputProcessor
@@ -13,14 +15,29 @@ public class GameScreen implements Screen, InputProcessor
 	private World world;
 	private WorldRenderer renderer;
 	private BobController controller;
+	private final SpriteBatch acc;
+	private final BitmapFont font;
 
 	private int width, height;
+
+	public GameScreen()
+	{
+		acc = new SpriteBatch();
+		font = new BitmapFont();
+	}
 
 	@Override
 	public void render(float delta)
 	{
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+		acc.begin();
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.draw(acc, "Accel: " + world.getBob().acceleration.toString(), 10, 30);
+		font.draw(acc, "Veloc: " + world.getBob().velocity.toString(), 10, 45);
+		font.draw(acc, "Right: " + controller.getRightKey().toString(), 10, 60);
+		acc.end();
 
 		controller.update(delta);
 		renderer.render();
