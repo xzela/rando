@@ -11,6 +11,10 @@ public class World {
 
 	/** Our player controlled hero **/
 	Bob bob;
+
+	/** A random monster **/
+	Monster monster;
+
 	/** A world has a level through which Bob needs to go through **/
 	Level level;
 
@@ -22,6 +26,7 @@ public class World {
 	public Array<Rectangle> getCollisionRects() { return collisionRects; }
 	public Bob getBob() { return bob; }
 	public Level getLevel() { return level; }
+	public Monster getMonster() { return monster; }
 
 	/** Return only the blocks that need to be drawn **/
 	public List<Block> getDrawableBlocks(int width, int height) {
@@ -62,6 +67,7 @@ public class World {
 
 	private void createDemoWorld() {
 		bob = new Bob(new Vector2(7, 3));
+		monster = new Monster(new Vector2(6, 3));
 		level = new Level();
 	}
 }
