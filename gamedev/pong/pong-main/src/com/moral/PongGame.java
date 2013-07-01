@@ -1,40 +1,23 @@
 package com.moral;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
+import com.moral.screens.GameScreen;
 
-public class PongGame implements ApplicationListener
+public class PongGame extends Game
 {
 	public final int WINDOW_WIDTH = 480 ;
 	public final int WINDOW_HEIGHT = 320;
 	public final String WINDOW_TITLE = "Pong Game";
 
-	@Override
-	public void create ()
-	{
-	}
+	public GameScreen gs;
+
 
 	@Override
-	public void render ()
+	public void create()
 	{
+		// TODO Auto-generated method stub
+		gs = new GameScreen(this);
+		setScreen(gs);
 	}
 
-	@Override
-	public void resize (int width, int height)
-	{
-	}
-
-	@Override
-	public void pause ()
-	{
-	}
-
-	@Override
-	public void resume ()
-	{
-	}
-
-	@Override
-	public void dispose ()
-	{
-	}
 }
