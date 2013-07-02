@@ -59,14 +59,19 @@ public class PaddleController
 		if (keys.get(Keys.UP))
 		{
 			if ((this.paddle.getPosition().y + this.paddle.getBounds().height) <= Board.BOARD_HEIGHT)
+			{
 				this.paddle.getPosition().y += SPEED;
+				this.paddle.getBounds().y = this.paddle.getPosition().y;
+			}
 		}
 		if (keys.get(Keys.DOWN))
 		{
 			if (this.paddle.getPosition().y > 0)
+			{
 				this.paddle.getPosition().y -= SPEED;
+				this.paddle.getBounds().y = this.paddle.getPosition().y;
+			}
 		}
-		System.out.println(this.paddle.getPosition().y);
 		return false;
 	}
 }
