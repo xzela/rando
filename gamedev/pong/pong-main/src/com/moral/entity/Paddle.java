@@ -18,6 +18,9 @@ public class Paddle
 
 	private final Vector2 position;
 	public Vector2 getPosition() { return this.position;}
+	public void setX(float x) { this.position.x = x; }
+	public void setY(float y) { this.position.y = y; }
+
 
 	public Paddle(Vector2 position)
 	{

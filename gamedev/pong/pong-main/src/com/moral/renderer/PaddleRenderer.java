@@ -23,8 +23,8 @@ public class PaddleRenderer
 		this.renderer.setProjectionMatrix(cam.combined);
 		this.renderer.begin(ShapeType.FilledRectangle);
 		this.renderer.setColor(Color.RED);
-		this.renderer.filledRect(this.paddle.getBounds().x,
-				this.paddle.getBounds().y,
+		this.renderer.filledRect(this.paddle.getPosition().x,
+				this.paddle.getPosition().y,
 				this.paddle.getBounds().width,
 				this.paddle.getBounds().height);
 		this.renderer.end();

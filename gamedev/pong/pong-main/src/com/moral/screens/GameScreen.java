@@ -1,51 +1,53 @@
 package com.moral.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.moral.PongGame;
 import com.moral.entity.PlayerPaddle;
 
-public class GameScreen implements Screen
+public class GameScreen implements Screen, InputProcessor
 {
-	private static final float CAMERA_WIDTH = 10f;
-	private static final float CAMERA_HEIGHT = 7f;
-
 	PongGame game;
 	PlayerPaddle player;
 	private final OrthographicCamera cam;
 
 	SpriteBatch batch;
-	ShapeRenderer sr;
 
 	public GameScreen(PongGame game)
 	{
-		float h = CAMERA_HEIGHT;
-		float w = CAMERA_WIDTH;
-		this.cam = new OrthographicCamera(w, h);
+		this.cam = new OrthographicCamera(Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 		this.batch = new SpriteBatch();
-		this.sr = new ShapeRenderer();
 
 		this.game = game;
-		Vector2 pos = new Vector2(1f, 3f);
+		Vector2 pos = new Vector2(0.5f, 2.5f);
 		this.player = new PlayerPaddle(pos);
 
-
-		this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_HEIGHT);
-		//this.cam.position.set(CAMERA_WIDTH / 2f, CAMERA_HEIGHT / 2f, 0);
-		this.cam.update();
-
+		this.cam.setToOrtho(false, Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 	}
 
 	@Override
 	public void render(float delta)
 	{
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+		this.updateGame(delta);
 		this.batch.begin();
 			this.player.render(this.batch, this.cam);
 		this.batch.end();
 
+	}
+
+	public void updateGame(float delta)
+	{
+		this.cam.update();
+		this.player.update(delta);
 	}
 
 	@Override
@@ -59,7 +61,7 @@ public class GameScreen implements Screen
 	public void show()
 	{
 		// TODO Auto-generated method stub
-
+		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
@@ -88,6 +90,60 @@ public class GameScreen implements Screen
 	{
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		if (keycode == Keys.UP)
+			this.player.controller.upPressed();
+		if (keycode == Keys.DOWN)
+			this.player.controller.downPressed();
+		return true;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		if (keycode == Keys.UP)
+			this.player.controller.upReleased();
+		if (keycode == Keys.DOWN)
+			this.player.controller.downReleased();
+		return true;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
