@@ -10,12 +10,13 @@ import com.moral.screens.Board;
 public class Ball
 {
 	private final static float SPEED = 2f;
-	private final static float MAX_SPEED = 10f;
+	private final static float MAX_SPEED = 7f;
 	private final static float RESET_X = 5f;
 	private final static float RESET_Y = 5f;
 
 	private final static float SIZE = .25f;
 	private Vector2 direction;
+	public Vector2 getDirection() { return this.direction; }
 
 	public float ballSpeed;
 	public float getBallSpeed() { return this.ballSpeed; }
@@ -52,31 +53,27 @@ public class Ball
 		this.bounds.setX(this.position.x);
 		this.bounds.setY(this.position.y);
 
-		//System.out.println("Paddle bounds: " + player.getPosition());
-		//System.out.println("Ball bounds: " + this.getBounds());
-
 		// test to see if the player paddle hits
 		this.collides(player, delta);
 
 		//test to see if ai paddle hits
 		this.collides(ai, delta);
 
-		//System.out.println(this.direction.y);
-		// test to bounce back from wall
-		if (this.bounds.x >= (Board.BOARD_WIDTH - this.bounds.width))
-		{
-			float sign = Math.signum(this.position.y);
-			this.direction.x = -this.direction.x;
-			this.direction.y = -this.direction.y;
-			this.direction.y = (float) (-sign * Math.abs(this.position.y - (Math.random() * 10)) / 3);
-		}
-
-		// if ball pasts the left side of the screen.
+		// if ball extends off the left side of the screen.
+		// AI scores a point
 		if (this.bounds.x < 0)
 		{
-			System.out.println("Ball bounds: " + this.getBounds());
 			this.reset();
 		}
+
+		// if ball extends off the right side of the screen
+		// Player scores a point
+		if (this.bounds.x > Board.BOARD_WIDTH)
+		{
+
+			this.reset();
+		}
+
 
 		//System.out.println("Height: " + Board.BOARD_HEIGHT  this.bounds.height);
 		// if ball hits the top of the board

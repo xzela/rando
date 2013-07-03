@@ -53,11 +53,12 @@ public class GameScreen implements Screen, InputProcessor
 
 	public void updateGame(float delta)
 	{
-		//this.ball.collision(this.player, delta);
 		this.cam.update();
 		this.player1.update(delta);
-		this.ball.update(this.player1, this.ai, delta);
 		this.ai.update(this.ball, delta);
+
+		this.ball.update(this.player1, this.ai, delta);
+
 	}
 
 	@Override
