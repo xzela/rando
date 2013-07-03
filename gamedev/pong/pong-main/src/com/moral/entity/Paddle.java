@@ -1,5 +1,6 @@
 package com.moral.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -12,6 +13,8 @@ public class Paddle
 	private final static float HEIGHT = 2f;
 
 	private PaddleRenderer renderer;
+
+	public Color color = Color.GREEN;
 
 	private final Rectangle bounds = new Rectangle();
 	public Rectangle getBounds() { return this.bounds; }

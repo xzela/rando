@@ -45,7 +45,7 @@ public class Ball
 		this.renderer.render(batch, cam);
 	}
 
-	public void update(Paddle player, float delta)
+	public void update(Paddle player, Paddle ai, float delta)
 	{
 
 		this.position.add(this.ballSpeed * this.direction.x * delta, this.ballSpeed * this.direction.y * delta);
@@ -55,23 +55,12 @@ public class Ball
 		//System.out.println("Paddle bounds: " + player.getPosition());
 		//System.out.println("Ball bounds: " + this.getBounds());
 
+		// test to see if the player paddle hits
+		this.collides(player, delta);
 
-		if (this.bounds.overlaps(player.getBounds()))
-		{
-			this.direction.x = -this.direction.x;
+		//test to see if ai paddle hits
+		this.collides(ai, delta);
 
-			float sign = Math.signum(this.position.y + player.getPosition().y);
-			this.direction.y = sign * Math.abs(this.position.y + player.getPosition().y) / 30;
-
-			if (this.ballSpeed < MAX_SPEED)
-			{
-				this.ballSpeed += 2;
-			}
-			if (this.ballSpeed > MAX_SPEED)
-			{
-				this.ballSpeed = MAX_SPEED;
-			}
-		}
 		//System.out.println(this.direction.y);
 		// test to bounce back from wall
 		if (this.bounds.x >= (Board.BOARD_WIDTH - this.bounds.width))
@@ -79,7 +68,7 @@ public class Ball
 			float sign = Math.signum(this.position.y);
 			this.direction.x = -this.direction.x;
 			this.direction.y = -this.direction.y;
-			this.direction.y = -sign * Math.abs(this.position.y) / 30;
+			this.direction.y = (float) (-sign * Math.abs(this.position.y - (Math.random() * 10)) / 3);
 		}
 
 		// if ball pasts the left side of the screen.
@@ -95,12 +84,12 @@ public class Ball
 		{
 			this.direction.y = -this.direction.y;
 		}
-//
-//		// if ball hits the bottom of the board
-//		if (this.position.y > Board.BOARD_HEIGHT - this.bounds.height)
-//		{
-//			this.direction.y = -this.direction.y;
-//		}
+
+		// if ball hits the bottom of the board
+		if (this.position.y < 0)
+		{
+			this.direction.y = -this.direction.y;
+		}
 	}
 
 	private void reset()
@@ -110,5 +99,22 @@ public class Ball
 		this.bounds.setX(this.position.x);
 		this.bounds.setY(this.position.y);
 		this.direction = new Vector2(-1,0);
+	}
+
+	private void collides(Paddle paddle, float delta)
+	{
+		if (this.bounds.overlaps(paddle.getBounds()))
+		{
+			this.direction.x = -this.direction.x;
+
+			float sign = Math.signum(this.position.y - (paddle.getBounds().y / 2));
+			this.direction.y = sign * Math.abs(this.direction.y + (paddle.getBounds().y / 2)) / 3;
+
+			this.ballSpeed += 2;
+			if (this.ballSpeed > MAX_SPEED)
+			{
+				this.ballSpeed = MAX_SPEED;
+			}
+		}
 	}
 }

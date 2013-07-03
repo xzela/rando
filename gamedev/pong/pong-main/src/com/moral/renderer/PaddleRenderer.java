@@ -1,6 +1,5 @@
 package com.moral.renderer;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -22,7 +21,7 @@ public class PaddleRenderer
 	{
 		this.renderer.setProjectionMatrix(cam.combined);
 		this.renderer.begin(ShapeType.FilledRectangle);
-		this.renderer.setColor(Color.RED);
+		this.renderer.setColor(this.paddle.color);
 		this.renderer.filledRect(this.paddle.getPosition().x,
 				this.paddle.getPosition().y,
 				this.paddle.getBounds().width,

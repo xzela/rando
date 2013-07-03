@@ -9,13 +9,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.moral.PongGame;
+import com.moral.entity.AIPaddle;
 import com.moral.entity.Ball;
 import com.moral.entity.PlayerPaddle;
 
 public class GameScreen implements Screen, InputProcessor
 {
 	PongGame game;
-	PlayerPaddle player;
+	PlayerPaddle player1;
+	AIPaddle ai;
 	Ball ball;
 	private final OrthographicCamera cam;
 
@@ -27,8 +29,8 @@ public class GameScreen implements Screen, InputProcessor
 		this.batch = new SpriteBatch();
 
 		this.game = game;
-		Vector2 pos = new Vector2(0.5f, 2.5f);
-		this.player = new PlayerPaddle(pos);
+		this.player1 = new PlayerPaddle(new Vector2(0.5f, 2.5f));
+		this.ai = new AIPaddle(new Vector2(9.5f, 2.5f));
 		this.ball = new Ball(new Vector2(5f,5f));
 
 		this.cam.setToOrtho(false, Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
@@ -42,7 +44,8 @@ public class GameScreen implements Screen, InputProcessor
 
 		this.updateGame(delta);
 		this.batch.begin();
-			this.player.render(this.batch, this.cam);
+			this.player1.render(this.batch, this.cam);
+			this.ai.render(this.batch, this.cam);
 			this.ball.render(this.batch, this.cam);
 		this.batch.end();
 
@@ -52,8 +55,9 @@ public class GameScreen implements Screen, InputProcessor
 	{
 		//this.ball.collision(this.player, delta);
 		this.cam.update();
-		this.player.update(delta);
-		this.ball.update(this.player, delta);
+		this.player1.update(delta);
+		this.ball.update(this.player1, this.ai, delta);
+		this.ai.update(this.ball, delta);
 	}
 
 	@Override
@@ -101,18 +105,18 @@ public class GameScreen implements Screen, InputProcessor
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.UP)
-			this.player.controller.upPressed();
+			this.player1.controller.upPressed();
 		if (keycode == Keys.DOWN)
-			this.player.controller.downPressed();
+			this.player1.controller.downPressed();
 		return true;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
 		if (keycode == Keys.UP)
-			this.player.controller.upReleased();
+			this.player1.controller.upReleased();
 		if (keycode == Keys.DOWN)
-			this.player.controller.downReleased();
+			this.player1.controller.downReleased();
 		return true;
 	}
 
