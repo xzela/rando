@@ -2,11 +2,10 @@ package com.moral.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.moral.screens.Board;
 
 public class AIPaddle extends Paddle
 {
-
-	private final float multi = 1;
 
 	public AIPaddle(Vector2 position)
 	{
@@ -16,20 +15,25 @@ public class AIPaddle extends Paddle
 
 	public void update(Ball ball, float delta)
 	{
-		//		this.getPosition().x = ball.getPosition().x;
+		this.getBounds().y = this.getPosition().y;
+		// is the ball x direction coming towards the AI paddle?
 		if (ball.getDirection().x > 0)
 		{
-			float dir = Math.signum(ball.getPosition().y - (this.getBounds().y / 2));
-			this.getPosition().y += dir * delta * (ball.ballSpeed * this.multi);
-			if (dir > 0 && this.getPosition().y > ball.getPosition().y)
+			//
+			if (this.getPosition().y < ball.getPosition().y)
 			{
-				this.setY(ball.getPosition().y);
+				if ((this.getPosition().y + this.getBounds().height) < Board.BOARD_HEIGHT)
+				{
+					this.getPosition().y += Paddle.SPEED;
+				}
 			}
-			if (dir < 0 && this.getPosition().y < ball.getPosition().y)
+			if (this.getPosition().y > ball.getPosition().y)
 			{
-				this.setY(ball.getPosition().y);
+				if (this.getPosition().y > 0)
+				{
+					this.getPosition().y -= Paddle.SPEED;
+				}
 			}
-
 		}
 
 	}
