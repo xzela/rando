@@ -12,7 +12,10 @@ public class Paddle
 	private final static float WIDTH = .25f;
 	private final static float HEIGHT = 2f;
 
-	private PaddleRenderer renderer;
+	public static final float SPEED = 0.1f;
+	public final static float MAX_SPEED = 4f;
+
+	private final PaddleRenderer renderer;
 
 	public Color color = Color.GREEN;
 

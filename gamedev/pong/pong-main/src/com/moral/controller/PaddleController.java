@@ -8,8 +8,6 @@ import com.moral.screens.Board;
 
 public class PaddleController
 {
-	private static final float SPEED = 0.1f;
-
 	enum Keys
 	{
 		UP, DOWN
@@ -60,7 +58,7 @@ public class PaddleController
 		{
 			if ((this.paddle.getPosition().y + this.paddle.getBounds().height) <= Board.BOARD_HEIGHT)
 			{
-				this.paddle.getPosition().y += SPEED;
+				this.paddle.getPosition().y += Paddle.SPEED;
 				this.paddle.getBounds().y = this.paddle.getPosition().y;
 			}
 		}
@@ -68,7 +66,7 @@ public class PaddleController
 		{
 			if (this.paddle.getPosition().y > 0)
 			{
-				this.paddle.getPosition().y -= SPEED;
+				this.paddle.getPosition().y -= Paddle.SPEED;
 				this.paddle.getBounds().y = this.paddle.getPosition().y;
 			}
 		}

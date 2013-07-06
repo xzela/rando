@@ -16,6 +16,7 @@ public class AIPaddle extends Paddle
 	public void update(Ball ball, float delta)
 	{
 		this.getBounds().y = this.getPosition().y;
+
 		// is the ball x direction coming towards the AI paddle?
 		if (ball.getDirection().x > 0)
 		{

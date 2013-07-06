@@ -15,6 +15,8 @@ import com.moral.entity.PlayerPaddle;
 
 public class GameScreen implements Screen, InputProcessor
 {
+	Board board;
+
 	PongGame game;
 	PlayerPaddle player1;
 	AIPaddle ai;
@@ -25,13 +27,15 @@ public class GameScreen implements Screen, InputProcessor
 
 	public GameScreen(PongGame game)
 	{
+		this.board = new Board(game);
+
 		this.cam = new OrthographicCamera(Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 		this.batch = new SpriteBatch();
 
 		this.game = game;
 		this.player1 = new PlayerPaddle(new Vector2(0.5f, 2.5f));
 		this.ai = new AIPaddle(new Vector2(9.5f, 2.5f));
-		this.ball = new Ball(new Vector2(5f,5f));
+		this.ball = new Ball(this.board, new Vector2(5f, 5f));
 
 		this.cam.setToOrtho(false, Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 	}
@@ -44,9 +48,10 @@ public class GameScreen implements Screen, InputProcessor
 
 		this.updateGame(delta);
 		this.batch.begin();
-			this.player1.render(this.batch, this.cam);
-			this.ai.render(this.batch, this.cam);
-			this.ball.render(this.batch, this.cam);
+		this.player1.render(this.batch, this.cam);
+		this.ai.render(this.batch, this.cam);
+		this.ball.render(this.batch, this.cam);
+		this.board.render(this.batch, this.cam);
 		this.batch.end();
 
 	}
@@ -56,8 +61,8 @@ public class GameScreen implements Screen, InputProcessor
 		this.cam.update();
 		this.player1.update(delta);
 		this.ai.update(this.ball, delta);
-
 		this.ball.update(this.player1, this.ai, delta);
+		this.board.update(delta);
 
 	}
 
@@ -104,7 +109,8 @@ public class GameScreen implements Screen, InputProcessor
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
+	public boolean keyDown(int keycode)
+	{
 		if (keycode == Keys.UP)
 			this.player1.controller.upPressed();
 		if (keycode == Keys.DOWN)
@@ -113,7 +119,8 @@ public class GameScreen implements Screen, InputProcessor
 	}
 
 	@Override
-	public boolean keyUp(int keycode) {
+	public boolean keyUp(int keycode)
+	{
 		if (keycode == Keys.UP)
 			this.player1.controller.upReleased();
 		if (keycode == Keys.DOWN)
@@ -122,37 +129,43 @@ public class GameScreen implements Screen, InputProcessor
 	}
 
 	@Override
-	public boolean keyTyped(char character) {
+	public boolean keyTyped(char character)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+	public boolean touchDown(int screenX, int screenY, int pointer, int button)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+	public boolean touchUp(int screenX, int screenY, int pointer, int button)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
+	public boolean touchDragged(int screenX, int screenY, int pointer)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
+	public boolean mouseMoved(int screenX, int screenY)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean scrolled(int amount) {
+	public boolean scrolled(int amount)
+	{
 		// TODO Auto-generated method stub
 		return false;
 	}

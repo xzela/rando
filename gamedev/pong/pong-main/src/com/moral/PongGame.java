@@ -15,7 +15,6 @@ public class PongGame extends Game
 	@Override
 	public void create()
 	{
-		// TODO Auto-generated method stub
 		gs = new GameScreen(this);
 		setScreen(gs);
 	}
