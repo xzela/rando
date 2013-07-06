@@ -9,41 +9,58 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.moral.PongGame;
 
-public class MenuScreen implements Screen
+public class EndScreen implements Screen
 {
+
 	PongGame game;
 	SpriteBatch batch;
 	BitmapFont font;
 
-	public MenuScreen(PongGame game)
+	public EndScreen(PongGame game)
 	{
+		this.game = game;
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont();
-		this.game = game;
 	}
 
-	/**
-	 * render the menu screen
-	 */
 	@Override
 	public void render(float delta)
 	{
+		// clear screen
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		// start sprite batch
 		this.batch.begin();
-		// render text to screen
-		font.setColor(Color.WHITE);
-		font.draw(this.batch, "Press Z to start", this.game.WINDOW_WIDTH / 2 - 50, this.game.WINDOW_HEIGHT / 2);
-		this.batch.end();
-		//end sprite batch
+		this.font.setColor(Color.RED);
 
-		// listen for key input to start game
-		if (Gdx.input.isKeyPressed(Keys.Z))
+		// determine winner based on score
+		// and render appropriate text
+		if (this.game.board.ai_score > this.game.board.player_score)
 		{
-			// set the pongScreen as current screen
-			game.setScreen(game.pongScreen);
+			this.font.draw(this.batch, "AI WINS", this.game.WINDOW_WIDTH / 2 -50, this.game.WINDOW_HEIGHT / 2 + 15);
+		}
+		else
+		{
+			this.font.draw(this.batch, "PLAYER WINS", this.game.WINDOW_WIDTH / 2 -50, this.game.WINDOW_HEIGHT / 2 + 15);
+		}
+		// render instructions
+		this.font.draw(this.batch, "PRESS 'R' TO TRY AGAIN", this.game.WINDOW_WIDTH / 2 - 50, this.game.WINDOW_HEIGHT / 2);
+		this.font.draw(this.batch, "PRESS 'Q' TO QUIT", this.game.WINDOW_WIDTH / 2 - 50, this.game.WINDOW_HEIGHT / 2 - 15);
+		this.batch.end();
+		// end sprite batch
+
+		// listen for input
+		if (Gdx.input.isKeyPressed(Keys.R))
+		{
+			// restart game
+			this.game.reset();
+		}
+
+		if(Gdx.input.isKeyPressed(Keys.Q))
+		{
+			// quit game
+			Gdx.app.exit();
 		}
 	}
 
@@ -51,6 +68,7 @@ public class MenuScreen implements Screen
 	public void resize(int width, int height)
 	{
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override

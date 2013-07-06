@@ -11,9 +11,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.moral.PongGame;
 import com.moral.entity.AIPaddle;
 import com.moral.entity.Ball;
+import com.moral.entity.Paddle;
 import com.moral.entity.PlayerPaddle;
 
-public class GameScreen implements Screen, InputProcessor
+public class PongScreen implements Screen, InputProcessor
 {
 	Board board;
 
@@ -25,10 +26,10 @@ public class GameScreen implements Screen, InputProcessor
 
 	SpriteBatch batch;
 
-	public GameScreen(PongGame game)
+	public PongScreen(PongGame game)
 	{
-		float paddle_y_start_position = (Board.BOARD_HEIGHT / 2 )- this.player1.HEIGHT / 2;
-		this.board = new Board(game);
+		float paddle_y_start_position = (Board.BOARD_HEIGHT / 2 ) - Paddle.HEIGHT / 2;
+		this.board = game.board;
 
 		this.cam = new OrthographicCamera(Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 		this.batch = new SpriteBatch();
@@ -36,7 +37,7 @@ public class GameScreen implements Screen, InputProcessor
 		this.game = game;
 		this.player1 = new PlayerPaddle(new Vector2(0.5f, paddle_y_start_position));
 		this.ai = new AIPaddle(new Vector2(9.5f, paddle_y_start_position));
-		this.ball = new Ball(this.board, new Vector2(Board.BOARD_WIDTH / 2, Board.BOARD_HEIGHT / 2));
+		this.ball = new Ball(this.game, new Vector2(Board.BOARD_WIDTH / 2, Board.BOARD_HEIGHT / 2));
 
 		this.cam.setToOrtho(false, Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 	}
@@ -52,18 +53,36 @@ public class GameScreen implements Screen, InputProcessor
 		this.player1.render(this.batch, this.cam);
 		this.ai.render(this.batch, this.cam);
 		this.ball.render(this.batch, this.cam);
-		this.board.render(this.batch, this.cam);
+		this.board.render(); // don't need the batch or cam?
 		this.batch.end();
 
 	}
 
+	/**
+	 * update the game objects
+	 * 
+	 * @param delta
+	 */
 	public void updateGame(float delta)
 	{
+		// update the game objects
 		this.cam.update();
 		this.player1.update(delta);
 		this.ai.update(this.ball, delta);
 		this.ball.update(this.player1, this.ai, delta);
-		this.board.update(delta);
+
+		// end game when either player or ai gets score goal
+		if (this.board.ai_score >= this.game.scoreGoal || this.board.player_score >= this.game.scoreGoal)
+		{
+			// set end screen
+			game.setScreen(this.game.endScreen);
+		}
+
+		// exit game when Q is pressed
+		if(Gdx.input.isKeyPressed(Keys.Q))
+		{
+			Gdx.app.exit();
+		}
 
 	}
 
