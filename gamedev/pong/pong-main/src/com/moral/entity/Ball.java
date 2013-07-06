@@ -11,10 +11,8 @@ public class Ball
 {
 	private final static float SPEED = 2f;
 	private final static float MAX_SPEED = 5f;
-	private final static float RESET_X = 5f;
-	private final static float RESET_Y = 5f;
 
-	private final static float SIZE = .25f;
+	private final static float SIZE = .2f;
 
 	private float time = 0.0f;
 
@@ -102,7 +100,7 @@ public class Ball
 
 	private void reset()
 	{
-		this.position = new Vector2(RESET_X, RESET_Y);
+		this.position = new Vector2(Board.BOARD_WIDTH / 2, Board.BOARD_HEIGHT / 2);
 		this.ballSpeed = SPEED;
 		this.time = 0f;
 		this.bounds.setX(this.position.x);
@@ -113,21 +111,16 @@ public class Ball
 	private void collides(Paddle paddle, float delta)
 	{
 		this.time += 0.001f;
-		if (this.bounds.overlaps(paddle.getBounds()))
+		if (this.bounds.overlaps(paddle.getBounds()) || paddle.getBounds().overlaps(this.bounds))
 		{
 			// reverse the x direction
 			this.direction.x = -this.direction.x;
+			// get the mid point of the paddle
 			float mid = paddle.getBounds().y + (paddle.getBounds().height / 2);
+			// find the point in which the ball strikes the paddle
 			float point = this.getPosition().y - mid;
-
+			// update the y
 			this.direction.y = Board.BOARD_HEIGHT / (20 / 3) * point + this.time;
-
-			//			float relativeIntersectY = (paddle.getPosition().y + (paddle.getBounds().height) / 2);
-			//			float normalized = (relativeIntersectY / ( paddle.getBounds().height / 2));
-			//
-			//			double angle = normalized * (5 * Math.PI / 20);
-			//			this.direction.y = (float) -Math.sin(angle);
-
 
 			this.ballSpeed += 2f;
 			if (this.ballSpeed > MAX_SPEED)

@@ -27,15 +27,16 @@ public class GameScreen implements Screen, InputProcessor
 
 	public GameScreen(PongGame game)
 	{
+		float paddle_y_start_position = (Board.BOARD_HEIGHT / 2 )- this.player1.HEIGHT / 2;
 		this.board = new Board(game);
 
 		this.cam = new OrthographicCamera(Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 		this.batch = new SpriteBatch();
 
 		this.game = game;
-		this.player1 = new PlayerPaddle(new Vector2(0.5f, 2.5f));
-		this.ai = new AIPaddle(new Vector2(9.5f, 2.5f));
-		this.ball = new Ball(this.board, new Vector2(5f, 5f));
+		this.player1 = new PlayerPaddle(new Vector2(0.5f, paddle_y_start_position));
+		this.ai = new AIPaddle(new Vector2(9.5f, paddle_y_start_position));
+		this.ball = new Ball(this.board, new Vector2(Board.BOARD_WIDTH / 2, Board.BOARD_HEIGHT / 2));
 
 		this.cam.setToOrtho(false, Board.BOARD_WIDTH, Board.BOARD_HEIGHT);
 	}

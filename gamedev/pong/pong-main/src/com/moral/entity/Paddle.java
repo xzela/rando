@@ -9,8 +9,8 @@ import com.moral.renderer.PaddleRenderer;
 
 public class Paddle
 {
-	private final static float WIDTH = .25f;
-	private final static float HEIGHT = 2f;
+	public final static float WIDTH = .25f;
+	public final static float HEIGHT = 2f;
 
 	public static final float SPEED = 0.1f;
 	public final static float MAX_SPEED = 4f;
