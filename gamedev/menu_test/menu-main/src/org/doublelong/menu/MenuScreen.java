@@ -3,50 +3,30 @@ package org.doublelong.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
 public class MenuScreen implements Screen
 {
 
-	private final Skin skin;
-	private final Stage stage;
+	private final SpriteBatch batch;
+	private final OrthographicCamera cam;
 
-	private final Label label;
-	String[] listEntries = {"This is a list entry", "And another one", "The meaning of life", "Is hard to come by",
-			"This is a list entry", "And another one", "The meaning of life", "Is hard to come by", "This is a list entry",
-			"And another one", "The meaning of life", "Is hard to come by", "This is a list entry", "And another one",
-			"The meaning of life", "Is hard to come by", "This is a list entry", "And another one", "The meaning of life",
-	"Is hard to come by"};
+	private final Rectangle cursor;
+
+	private final Rectangle[] menu;
+	private final ShapeRenderer r;
 
 	public MenuScreen()
 	{
-
-		this.skin = new Skin(Gdx.files.internal("ui/uiskin.json"), new TextureAtlas(Gdx.files.internal("ui/uiskin.atlas")));
-		this.stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-		this.label = new Label("Word: ", this.skin);
-
-		Gdx.input.setInputProcessor(stage);
-		Window window = new Window("Dialog", skin);
-		window.setPosition(0, 0);
-		window.defaults().spaceBottom(10);
-
-		window.add(this.label).colspan(4);
-		window.pack();
-
-		this.stage.addActor(window);
-
-		Table t = new Table();
-		t.row();
-		t.add(this.label);
-
-		t.layout();
-
-		this.stage.addActor(t);
+		this.batch = new SpriteBatch();
+		this.cam = new OrthographicCamera(600, 600);
+		this.menu = new Rectangle[2];
+		this.cursor = new Rectangle(10f, 10f, 10f, 10f);
+		this.r = new ShapeRenderer();
 	}
 
 	@Override
@@ -54,9 +34,11 @@ public class MenuScreen implements Screen
 	{
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		this.stage.draw();
-		Table.drawDebug(stage);
+		this.batch.begin();
+		this.r.begin(ShapeType.FilledRectangle);
+		this.r.filledRect(10f, 100f, 10f, 10f);
+		this.r.end();
+		this.batch.end();
 	}
 
 	@Override
